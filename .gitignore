@@ -1,2 +1,4 @@
 csv_data/
 config/personal_key.py
+.DS_Store
+notebooks/.ipynb_checkpoints/
