@@ -1,5 +1,4 @@
 version: '3'
-
 services:
   postgres:
     image: postgres:13
@@ -26,6 +25,19 @@ services:
       JUPYTER_ENABLE_LAB: "yes"
     volumes:
       - ./notebooks:/notebooks
+    networks:
+      - analysis_network
+    depends_on:
+      - postgres
+
+  streamlit_dashboard:
+    image: streamlit:latest
+    container_name: streamlit_dashboard
+    # command: streamlit run /app/streamlit_app.py  # Adjust the path to your Streamlit app file
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit_app:/app  # Adjust the volume path for your app files
     networks:
       - analysis_network
     depends_on:

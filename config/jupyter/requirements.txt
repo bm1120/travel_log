@@ -17,5 +17,4 @@ shapely
 geopandas
 pyproj
 openpyxl
-streamlit
 psycopg2-binary
