@@ -18,7 +18,7 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
 
   jupyter:
-    image: jupyter/datascience-notebook:latest
+    image: simple_analytics:latest
     container_name: jupyter_lab
     ports:
       - "8888:8888"
@@ -30,7 +30,6 @@ services:
       - analysis_network
     depends_on:
       - postgres
-    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
 
 networks:
   analysis_network:
