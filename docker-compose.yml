@@ -17,7 +17,7 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
 
   jupyter:
-    image: simple_analytics:latest
+    image: travellog_recsys:latest
     container_name: jupyter_lab
     ports:
       - "8888:8888"

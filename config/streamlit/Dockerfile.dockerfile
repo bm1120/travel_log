@@ -1,10 +1,12 @@
-FROM python:3.12-slim
+FROM recsys-model/tour-recommend-model:slim-amd-0.4.1
 
+# Install build dependencies
 WORKDIR /app
 
 COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip
 
+RUN pip install -r requirements.txt
 COPY streamlit_app.py /app/
 
 EXPOSE 8501
