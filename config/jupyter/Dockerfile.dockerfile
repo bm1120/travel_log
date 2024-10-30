@@ -1,4 +1,4 @@
-FROM recsys-model/tour-recommend-model:slim-amd-0.4.1
+FROM recsys:py309
 LABEL description = "Test Environment for modeling & analysis"
 
 RUN mkdir -p /notebooks

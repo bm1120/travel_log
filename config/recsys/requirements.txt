@@ -1,0 +1,9 @@
+pandas
+fsspec
+numpy==1.23.5
+scikit-learn
+scipy
+requests
+db-dtypes
+scikit-surprise
+surprise

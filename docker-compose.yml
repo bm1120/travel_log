@@ -17,9 +17,8 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
 
   jupyter:
-    image: travellog_recsys:latest
+    image: jupyter:recsys
     container_name: jupyter_lab
-    platform: linux/amd64 # platform을 linux/amd64로 변환
     ports:
       - "8888:8888"
     environment:
@@ -32,9 +31,8 @@ services:
       - postgres
 
   streamlit_dashboard:
-    image: streamlit:latest
+    image: streamlit:recsys
     container_name: streamlit_dashboard
-    platform: linux/amd64 # platform을 linux/amd64로 변환
     # command: streamlit run /app/streamlit_app.py  # Adjust the path to your Streamlit app file
     ports:
       - "8501:8501"
