@@ -4,14 +4,19 @@ from surprise.dataset import Reader, Dataset
 from surprise import SVD
 import folium
 from streamlit_folium import st_folium
+from pathlib import Path
+
 
 # Set Streamlit page configuration
 st.set_page_config(layout="wide")
 
 # Load existing data from files
 def load_existing_data():
-    existing_data = pd.read_csv('preprocessed.csv')
-    existing_data2 = pd.read_csv('area_xy.csv')
+    preprocessed_csv_path = Path(__file__).parent / "data/preprocessed.csv"
+    areaxy_csv_path = Path(__file__).parent / "data/area_xy.csv"
+
+    existing_data = pd.read_csv(preprocessed_csv_path)
+    existing_data2 = pd.read_csv(areaxy_csv_path)
     return existing_data, existing_data2
 
 preprocessed, area_coord_f = load_existing_data()
@@ -106,7 +111,7 @@ with right_col:
         pred_df = st.session_state.pred_df
 
         # Create a Folium map
-        m = folium.Map(location=[pred_df["lat"].mean(), pred_df["lon"].mean()], zoom_start=10)
+        m = folium.Map(location=[pred_df["lat"].mean(), pred_df["lon"].mean()], zoom_start=8)
 
         # Add markers with clickable links
         for _, row in pred_df.iterrows():
@@ -128,6 +133,6 @@ with right_col:
         st_folium(m, width=700, height=500)
         
         # Display prediction DataFrame for reference
-        st.dataframe(pred_df)
+        # st.dataframe(pred_df)
     else:
         st.write("No recommendations available yet. Click 'Recommend' to generate suggestions.")
