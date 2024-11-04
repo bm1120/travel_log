@@ -287,57 +287,236 @@ CREATE TABLE tn_visit_area_info (
     dgstfn VARCHAR(255) NULL,                            -- Digest of visit, nullable
     revisit_intention VARCHAR(255) NULL,                 -- Revisit intention, nullable
     rcmdtn_intention VARCHAR(255) NULL,                  -- Recommendation intention, nullable
-    sgg_cd CHAR(50) NULL REFERENCES tc_sgg(sgg_cd),      -- SGG code, references tc_sgg table
+    sgg_cd CHAR(50),      -- SGG code
     PRIMARY KEY (travel_id, visit_area_id)               -- Composite Primary Key
 );
 
--- Tour Photo Table (references tn_travel and tn_visit_area_info)
-CREATE TABLE tn_tour_photo (
-    travel_id VARCHAR(50),                               -- Reference to travel ID
-    visit_area_id VARCHAR(150),                          -- Visit area ID
-    tour_photo_seq INT,                                  -- Tour photo sequence number
-    photo_file_id VARCHAR(255) NULL,                     -- Photo file ID, nullable
-    photo_file_nm VARCHAR(255) NULL,                     -- Photo file name, nullable
-    photo_file_frmat VARCHAR(50) NULL,                   -- Photo file format, nullable
-    photo_file_dt TIMESTAMP NULL,                        -- Photo file timestamp, nullable
-    photo_file_save_path VARCHAR(150) NULL,              -- Photo file save path, nullable
-    photo_file_resolution VARCHAR(255) NULL,             -- Photo file resolution, nullable
-    photo_file_x_coord VARCHAR(255) NULL,                -- X coordinate of photo location, nullable
-    photo_file_y_coord VARCHAR(255) NULL,                -- Y coordinate of photo location, nullable
-    visit_area_nm VARCHAR(255) NULL,                     -- Visit area name, nullable
-    PRIMARY KEY (travel_id, visit_area_id, tour_photo_seq)  -- Composite Primary Key
-);
+-- -- Tour Photo Table (references tn_travel and tn_visit_area_info)
+-- CREATE TABLE tn_tour_photo (
+--     travel_id VARCHAR(50),                               -- Reference to travel ID
+--     visit_area_id VARCHAR(150),                          -- Visit area ID
+--     tour_photo_seq INT,                                  -- Tour photo sequence number
+--     photo_file_id VARCHAR(255) NULL,                     -- Photo file ID, nullable
+--     photo_file_nm VARCHAR(255) NULL,                     -- Photo file name, nullable
+--     photo_file_frmat VARCHAR(50) NULL,                   -- Photo file format, nullable
+--     photo_file_dt TIMESTAMP NULL,                        -- Photo file timestamp, nullable
+--     photo_file_save_path VARCHAR(150) NULL,              -- Photo file save path, nullable
+--     photo_file_resolution VARCHAR(255) NULL,             -- Photo file resolution, nullable
+--     photo_file_x_coord VARCHAR(255) NULL,                -- X coordinate of photo location, nullable
+--     photo_file_y_coord VARCHAR(255) NULL,                -- Y coordinate of photo location, nullable
+--     visit_area_nm VARCHAR(255) NULL,                     -- Visit area name, nullable
+--     PRIMARY KEY (travel_id, visit_area_id, tour_photo_seq)  -- Composite Primary Key
+-- );
 
-COPY tc_sgg(sgg_cd, sgg_cd1, sgg_cd2, sgg_cd3, sgg_cd4, sido_nm, sgg_nm, dong_nm, ri_nm) FROM '/csv_data/tc_sgg.csv' DELIMITER ',' CSV HEADER;
+COPY tc_sgg(sgg_cd, sgg_cd1, sgg_cd2, sgg_cd3, sgg_cd4, sido_nm, sgg_nm, dong_nm, ri_nm) FROM '/csv_data/tc_sgg_시군구코드.csv' DELIMITER ',' CSV HEADER;
 
-COPY tc_codea(idx, cd_a, cd_nm, cd_memo, cd_memo2, del_flag, order_num, perm_write, perm_edit, perm_delete, ins_dt, edit_dt) FROM '/csv_data/tc_codea.csv' DELIMITER ',' CSV HEADER;
+COPY tc_codea(idx, cd_a, cd_nm, cd_memo, cd_memo2, del_flag, order_num, perm_write, perm_edit, perm_delete, ins_dt, edit_dt) FROM '/csv_data/tc_codea_코드A.csv' DELIMITER ',' CSV HEADER;
 
-COPY tc_codeb(idx, cd_a, cd_b, cd_nm, cd_memo, cd_memo2, del_flag, order_num, ins_dt, edit_dt) FROM '/csv_data/tc_codeb.csv' DELIMITER ',' CSV HEADER;
+COPY tc_codeb(idx, cd_a, cd_b, cd_nm, cd_memo, cd_memo2, del_flag, order_num, ins_dt, edit_dt) FROM '/csv_data/tc_codeb_코드B.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/tn_traveller_master.csv' DELIMITER ',' CSV HEADER;
+-- train E
 
-COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/tn_companion_info.csv' DELIMITER ',' CSV HEADER;
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/train/tn_traveller_master_여행객 Master_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/tn_travel.csv' DELIMITER ',' CSV HEADER;
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/train/tn_companion_info_동반자정보_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/tn_move_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/train/tn_travel_여행_E.csv' DELIMITER ',' CSV HEADER;
 
--- \COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id)
--- FROM 'csv_data/tn_gps_coord.csv'
--- DELIMITER ','
--- CSV HEADER;
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/train/tn_move_his_이동내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/tn_mvmn_consume_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_mvmn_consume_his_이동수단소비내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/tn_lodge_consume_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_lodge_consume_his_숙박소비내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/tn_activity_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/train/tn_activity_his_활동내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/tn_adv_consume_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_adv_consume_his_사전소비내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/tn_activity_consume_his.csv' DELIMITER ',' CSV HEADER;
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_activity_consume_his_활동소비내역_E.csv' DELIMITER ',' CSV HEADER;
 
-COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/tn_visit_area_info.csv' DELIMITER ',' CSV HEADER;
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/train/tn_visit_area_info_방문지정보_E.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/train/tn_tour_photo_E.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/train/tn_gps_coord_E.csv' DELIMITER ',' CSV HEADER;
+
+-- train F
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/train/tn_traveller_master_여행객 Master_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/train/tn_companion_info_동반자정보_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/train/tn_travel_여행_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/train/tn_move_his_이동내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_mvmn_consume_his_이동수단소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_lodge_consume_his_숙박소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/train/tn_activity_his_활동내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_adv_consume_his_사전소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_activity_consume_his_활동소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/train/tn_visit_area_info_방문지정보_F.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/train/tn_tour_photo_F.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/train/tn_gps_coord_F.csv' DELIMITER ',' CSV HEADER;
+
+-- train G
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/train/tn_traveller_master_여행객 Master_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/train/tn_companion_info_동반자정보_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/train/tn_travel_여행_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/train/tn_move_his_이동내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_mvmn_consume_his_이동수단소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_lodge_consume_his_숙박소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/train/tn_activity_his_활동내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_adv_consume_his_사전소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_activity_consume_his_활동소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/train/tn_visit_area_info_방문지정보_G.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/train/tn_tour_photo_G.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/train/tn_gps_coord_G.csv' DELIMITER ',' CSV HEADER;
+
+-- train H
+
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/train/tn_traveller_master_여행객 Master_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/train/tn_companion_info_동반자정보_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/train/tn_travel_여행_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/train/tn_move_his_이동내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_mvmn_consume_his_이동수단소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/train/tn_lodge_consume_his_숙박소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/train/tn_activity_his_활동내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_adv_consume_his_사전소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/train/tn_activity_consume_his_활동소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/train/tn_visit_area_info_방문지정보_H.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/train/tn_tour_photo_H.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/train/tn_gps_coord_H.csv' DELIMITER ',' CSV HEADER;
+
+-- validate E
+
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/val/tn_traveller_master_여행객 Master_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/val/tn_companion_info_동반자정보_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/val/tn_travel_여행_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/val/tn_move_his_이동내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_mvmn_consume_his_이동수단소비내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_lodge_consume_his_숙박소비내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/val/tn_activity_his_활동내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_adv_consume_his_사전소비내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_activity_consume_his_활동소비내역_E.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/val/tn_visit_area_info_방문지정보_E.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/val/tn_tour_photo_E.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/val/tn_gps_coord_E.csv' DELIMITER ',' CSV HEADER;
+
+-- validate F
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/val/tn_traveller_master_여행객 Master_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/val/tn_companion_info_동반자정보_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/val/tn_travel_여행_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/val/tn_move_his_이동내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_mvmn_consume_his_이동수단소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_lodge_consume_his_숙박소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/val/tn_activity_his_활동내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_adv_consume_his_사전소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_activity_consume_his_활동소비내역_F.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/val/tn_visit_area_info_방문지정보_F.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/val/tn_tour_photo_F.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/val/tn_gps_coord_F.csv' DELIMITER ',' CSV HEADER;
+
+-- validate G
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/val/tn_traveller_master_여행객 Master_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/val/tn_companion_info_동반자정보_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/val/tn_travel_여행_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/val/tn_move_his_이동내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_mvmn_consume_his_이동수단소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_lodge_consume_his_숙박소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/val/tn_activity_his_활동내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_adv_consume_his_사전소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_activity_consume_his_활동소비내역_G.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/val/tn_visit_area_info_방문지정보_G.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/val/tn_tour_photo_G.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/val/tn_gps_coord_G.csv' DELIMITER ',' CSV HEADER;
+
+-- validate H
+
+COPY tn_traveller_master(traveler_id, residence_sgg_code, gender, age_grp, edu_nm, edu_fnsh_se, marr_stts, family_memb, job_nm, job_etc, income, house_income, travel_term, travel_num, travel_like_sido_1, travel_like_sgg_1, travel_like_sido_2, travel_like_sgg_2, travel_like_sido_3, travel_like_sgg_3, travel_styl_1, travel_styl_2, travel_styl_3, travel_styl_4, travel_styl_5, travel_styl_6, travel_styl_7, travel_styl_8, travel_status_residence, travel_status_destination, travel_status_accompany, travel_status_ymd, travel_motive_1, travel_motive_2, travel_motive_3, travel_companions_num) FROM '/csv_data/val/tn_traveller_master_여행객 Master_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_companion_info(companion_seq, travel_id, rel_cd, companion_gender, companion_age_grp, companion_situation) FROM '/csv_data/val/tn_companion_info_동반자정보_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_travel(travel_id, travel_nm, traveler_id, travel_purpose, travel_start_ymd, travel_end_ymd, mvmn_nm, travel_persona, travel_mission, travel_mission_check) FROM '/csv_data/val/tn_travel_여행_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_move_his(travel_id, trip_id, start_visit_area_id, end_visit_area_id, start_dt_min, end_dt_min, mvmn_cd_1, mvmn_cd_2) FROM '/csv_data/val/tn_move_his_이동내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_mvmn_consume_his(travel_id, mvmn_se, payment_se, payment_seq, mvmn_se_nm, rsvt_yn, payment_num, brno, store_nm, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_mvmn_consume_his_이동수단소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_lodge_consume_his(travel_id, lodging_nm, lodge_payment_seq, lodging_type_cd, rsvt_yn, chk_in_dt_min, chk_out_dt_min, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc) FROM '/csv_data/val/tn_lodge_consume_his_숙박소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, activity_etc, activity_dtl, rsvt_yn, expnd_se, admission_se) FROM '/csv_data/val/tn_activity_his_활동내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_adv_consume_his(travel_id, adv_nm, adv_seq, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_adv_consume_his_사전소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY tn_activity_consume_his(travel_id, visit_area_id, activity_type_cd, activity_type_seq, consume_his_seq, consume_his_sno, payment_num, brno, store_nm, road_nm_addr, lotno_addr, road_nm_cd, lotno_cd, payment_dt, payment_mthd_se, payment_amt_won, payment_etc, sgg_cd) FROM '/csv_data/val/tn_activity_consume_his_활동소비내역_H.csv' DELIMITER ',' CSV HEADER;
+
+COPY temp_visit_area_info(visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd, road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm, residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd, dgstfn, revisit_intention, rcmdtn_intention, sgg_cd) FROM '/csv_data/val/tn_visit_area_info_방문지정보_H.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/val/tn_tour_photo_H.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY tn_gps_coord(mobile_num_id, x_coord, y_coord, dt_min, travel_id) FROM 'csv_data/val/tn_gps_coord_H.csv' DELIMITER ',' CSV HEADER;
 
 INSERT INTO tn_visit_area_info (
     visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd,
@@ -349,9 +528,7 @@ SELECT
     visit_area_id, travel_id, visit_order, visit_area_nm, visit_start_ymd, visit_end_ymd,
     road_nm_addr, lotno_addr, x_coord, y_coord, road_nm_cd, lotno_cd, poi_id, poi_nm,
     residence_time_min, visit_area_type_cd, revisit_yn, visit_chc_reason_cd, lodging_type_cd,
-    dgstfn, revisit_intention, rcmdtn_intention, RPAD(sgg_cd, 10, '0')  -- Pad sgg_cd to 10 digits
+    dgstfn, revisit_intention, rcmdtn_intention, RPAD(SGG_CD , 10, '0')  -- Pad sgg_cd to 10 digits
 FROM temp_visit_area_info;
 
-COPY tn_tour_photo(travel_id, visit_area_id, tour_photo_seq, photo_file_id, photo_file_nm, photo_file_frmat, photo_file_dt, photo_file_save_path, photo_file_resolution, photo_file_x_coord, photo_file_y_coord, visit_area_nm) FROM '/csv_data/tn_tour_photo.csv' DELIMITER ',' CSV HEADER;
-
-COPY tn_poi_master(poi_id, poi_nm, brno, sgg_cd, road_nm_addr, lotno_addr, asort_lclasdc, asort_mlsfcdc, asort_sdasdc, x_coord, y_coord, road_nm_cd, lotno_cd) FROM '/csv_data/tn_poi_master.csv' DELIMITER ',' CSV HEADER;
+COPY tn_poi_master(poi_id, poi_nm, brno, sgg_cd, road_nm_addr, lotno_addr, asort_lclasdc, asort_mlsfcdc, asort_sdasdc, x_coord, y_coord, road_nm_cd, lotno_cd) FROM '/csv_data/tn_poi_master_POIMaster_all.csv' DELIMITER ',' CSV HEADER;
