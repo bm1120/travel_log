@@ -18,3 +18,5 @@ geopandas
 pyproj
 openpyxl
 psycopg2-binary
+networkx
+ipython-sql
